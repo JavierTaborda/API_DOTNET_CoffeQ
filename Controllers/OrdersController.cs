@@ -37,6 +37,13 @@ namespace API_CoffeQ.Controllers
             var newOrder = await _orderRepository.AddOrder(order);
             return CreatedAtAction(nameof(GetOrder), new { id = newOrder.IdOrder }, newOrder);
         }
+        [HttpPost("Detail/{orderid}")]
+        public async Task<ActionResult<OrderDetailDTO>> AddOrderDetail(OrderDetailDTO order)
+        {
+            var newOrder = await _orderRepository.AddOrderDetail(order);
+            return CreatedAtAction(nameof(GetOrder), new { id = newOrder.IdOrder }, newOrder);
+        }
+
         [HttpPut]
         public async Task<ActionResult<OrderDTO>> UpdateOrder(OrderDTO order)
         {
