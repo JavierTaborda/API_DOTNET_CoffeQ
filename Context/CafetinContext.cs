@@ -26,6 +26,7 @@ public partial class CafetinContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
+  
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -114,15 +115,9 @@ public partial class CafetinContext : DbContext
             entity.Property(e => e.Image)
                 .HasMaxLength(500)
                 .IsUnicode(false);
-            entity.Property(e => e.IsActive)
-                .HasMaxLength(10)
-                .IsFixedLength();
             entity.Property(e => e.Name)
-                .HasMaxLength(100)
+                .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.Stock)
-                .HasMaxLength(10)
-                .IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);

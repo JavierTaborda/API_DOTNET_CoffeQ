@@ -11,9 +11,9 @@ public partial class Product
 
     public string? Description { get; set; }
 
-    public string? IsActive { get; set; }
+    public bool? IsActive { get; set; }
 
-    public string? Stock { get; set; }
+    public int? Stock { get; set; }
 
     public double? Price { get; set; }
 
