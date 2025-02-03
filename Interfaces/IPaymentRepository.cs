@@ -8,7 +8,8 @@ namespace API_CoffeQ.Interfaces
         Task<PaymentDTO> AddPayment(PaymentDTO payment);
         Task<List<PaymentDTO>> GetPayments();
         Task<PaymentDTO> GetPayment(int id);
+        Task<List<PaymentDTO>> GetPaymentOrder(int id);
         Task<PaymentDTO> UpdatePayment(PaymentDTO payment);
-        Task<PaymentDTO> DeletePayment(int id);
+        Task<PaymentDTO> DeletePayment(int id); 
     }
 }

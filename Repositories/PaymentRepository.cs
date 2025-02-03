@@ -24,6 +24,11 @@ namespace API_CoffeQ.Repositories
             var payment = await _context.Payments.FindAsync(id);
             return _mapper.Map<PaymentDTO>( payment);
         }
+        public async Task<List<PaymentDTO>> GetPaymentOrder(int id)
+        {
+            var payment = await _context.Payments.Where(p=>p.IdOrder==id).ToListAsync();
+            return _mapper.Map<List<PaymentDTO>>( payment);
+        }
 
         public async Task<List<PaymentDTO>> GetPayments()
         {

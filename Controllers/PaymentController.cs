@@ -27,6 +27,14 @@ namespace API_CoffeQ.Controllers
             }
             return Ok(payment);
         }
+
+        [HttpGet("Order/{orderid}")]
+        public async Task<ActionResult<List<PaymentDTO>>> GetPaymentsOrder(int orderid)
+        {
+            var payments = await _paymentRepository.GetPaymentOrder(orderid);
+            return Ok(payments);
+        }
+
         [HttpPost]
         public async Task<ActionResult<PaymentDTO>> AddPayment(PaymentDTO payment)
         {
