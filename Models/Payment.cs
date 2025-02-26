@@ -14,6 +14,8 @@ public partial class Payment
     public string? Ref { get; set; }
 
     public DateTime? Date { get; set; }
+    public bool? IsApproved { get; set; }
+
 
     public virtual Order? IdOrderNavigation { get; set; }
 }

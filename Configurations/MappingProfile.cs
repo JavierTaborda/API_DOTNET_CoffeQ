@@ -13,7 +13,8 @@ namespace API_CoffeQ.Configurations
             CreateMap<Product, ProductDTO>();
 
             CreateMap<ProductDTO, Product>();
-            CreateMap<Payment, PaymentDTO>();
+            CreateMap<Payment, PaymentDTO>()
+                .ForMember(dest=>dest.CustomerName, opt=>opt.MapFrom(src=>src.IdOrderNavigation!.IdCustomerNavigation.Name));
             CreateMap<PaymentDTO, Payment>();
 
             CreateMap<OrderDetail, OrderDetailDTO>()

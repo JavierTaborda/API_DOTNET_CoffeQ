@@ -3,6 +3,7 @@ using API_CoffeQ.Interfaces;
 using API_CoffeQ.Repositories;
 using Microsoft.EntityFrameworkCore;
 using API_CoffeQ.Middlewares;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,22 @@ builder.Services.AddSwaggerGen();
 //automapper for DTOs
 builder.Services.AddAutoMapper(typeof(Program));
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder
+        .AllowAnyOrigin()
+        .AllowAnyHeader());
+
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+        .WithOrigins("http://example.com") // Replace with your allowed origins
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
+builder.WebHost.UseUrls("http://*:5291");
+
 var app = builder.Build();
 
 // error handling
@@ -40,6 +57,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+// Use CORS
+app.UseCors("AllowAllOrigins");
 
 app.MapControllers();
 

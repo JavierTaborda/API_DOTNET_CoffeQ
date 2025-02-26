@@ -32,7 +32,9 @@ namespace API_CoffeQ.Repositories
 
         public async Task<List<PaymentDTO>> GetPayments()
         {
-            var payments = await _context.Payments.ToListAsync();
+            var payments = await _context.Payments
+                .Include(C=>C.IdOrderNavigation!.IdCustomerNavigation)
+                .ToListAsync();
             return _mapper.Map<List<PaymentDTO>>(payments);
         }
 

@@ -13,6 +13,7 @@ public partial class PaymentDTO
 
     public string? Ref { get; set; }
 
+    public bool? IsApproved { get; set; }
     public DateTime? Date { get; set; }
-
+    public string? CustomerName { get; set; }
 }
