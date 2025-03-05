@@ -30,7 +30,16 @@ namespace API_CoffeQ.Controllers
             var orders = await _orderRepository.GetOrders(customerid);
             return Ok(orders);
         }
-
+        [HttpGet("Record/{user}")]
+        public async Task<ActionResult<OrderDTO>> GetRecordOrder(string user)
+        {
+            var order = await _orderRepository.ClientOrderRecord(user);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
         [HttpPost]
         public async Task<ActionResult<OrderDTO>> AddOrder(OrderDTO order)
         {

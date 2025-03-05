@@ -22,7 +22,8 @@ namespace API_CoffeQ.Configurations
             CreateMap<OrderDetailDTO, OrderDetail>();
 
             CreateMap<Order, OrderDTO>()
-                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.IdCustomerNavigation!.Name));
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.IdCustomerNavigation!.Name))
+                .ForMember(dest => dest.OrderDetailsDTO, opt => opt.MapFrom(src => src.OrderDetails));
 
             CreateMap<OrderDTO, Order>();
 

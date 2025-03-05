@@ -31,6 +31,8 @@ namespace API_CoffeQ.Repositories
             return _mapper.Map<OrderDetailDTO>(result.Entity);
         }
 
+    
+
         public async Task<OrderDTO> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -49,6 +51,16 @@ namespace API_CoffeQ.Repositories
                 .Orders
                 .Include(o => o.OrderDetails)
                 .FirstOrDefaultAsync(o => o.IdOrder == id);
+
+            return _mapper.Map<OrderDTO>(order);
+        }
+        public async Task<OrderDTO> ClientOrderRecord(string client)
+        {
+            var order = await _context
+                 .Orders
+                 .Include(o => o.OrderDetails)
+                 .Include(o => o.Payments)
+                 .FirstOrDefaultAsync(o => o.IdCustomerNavigation.Cedula == client);
 
             return _mapper.Map<OrderDTO>(order);
         }

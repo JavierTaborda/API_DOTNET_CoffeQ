@@ -12,6 +12,7 @@ namespace API_CoffeQ.Interfaces
 
         Task<OrderDTO> UpdateOrder(OrderDTO order);
         Task<OrderDTO> DeleteOrder(int id);
+        Task<OrderDTO> ClientOrderRecord(string client);
 
     }
 }
