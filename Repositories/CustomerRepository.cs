@@ -20,11 +20,11 @@ namespace API_CoffeQ.Repositories
            
         }
   
-        public async Task<CustomerDTO> GetCustomer(int id)
+        public async Task<CustomerDTO> GetCustomer(string info)
         {
-            
-            var customer = await _context.Customers.FindAsync(id);
-            return _mapper.Map<CustomerDTO>(customer) ;
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Cedula!.Equals(info) || c.Email!.Equals(info));
+            return _mapper.Map<CustomerDTO>(customer);
         }
 
         public async Task<List<CustomerDTO>> GetCustomers()

@@ -17,7 +17,7 @@ namespace API_CoffeQ.Controllers
             return Ok(customers);
         }
         [HttpGet("{customerid}")]
-        public async Task<ActionResult<CustomerDTO>> GetCustomer(int customerid)
+        public async Task<ActionResult<CustomerDTO>> GetCustomer(string customerid)
         {
             var customer = await _customersRepository.GetCustomer(customerid);
             if (customer == null)

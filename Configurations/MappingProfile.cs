@@ -12,20 +12,31 @@ namespace API_CoffeQ.Configurations
 
             CreateMap<Product, ProductDTO>();
 
-            CreateMap<ProductDTO, Product>();
+           
             CreateMap<Payment, PaymentDTO>()
                 .ForMember(dest=>dest.CustomerName, opt=>opt.MapFrom(src=>src.IdOrderNavigation!.IdCustomerNavigation.Name));
             CreateMap<PaymentDTO, Payment>();
 
             CreateMap<OrderDetail, OrderDetailDTO>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.IdProductNavigation!.Name));
-            CreateMap<OrderDetailDTO, OrderDetail>();
 
             CreateMap<Order, OrderDTO>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.IdCustomerNavigation!.Name))
                 .ForMember(dest => dest.OrderDetailsDTO, opt => opt.MapFrom(src => src.OrderDetails));
 
-            CreateMap<OrderDTO, Order>();
+            //DTO to Entity
+
+            CreateMap<ProductDTO, Product>();
+
+            CreateMap<OrderDTO, Order>()
+                 .ForMember(dest => dest.IdOrder, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetailsDTO));
+
+            CreateMap<OrderDetailDTO, OrderDetail>()
+                    .ForMember(dest => dest.IdOrderDetail, opt => opt.Ignore());
+
+            CreateMap<CustomerDTO, Customer>();
+
 
 
         }

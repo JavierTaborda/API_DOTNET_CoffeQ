@@ -15,12 +15,48 @@ namespace API_CoffeQ.Repositories
 
 
 
-        public async Task<OrderDTO> AddOrder(OrderDTO order)
+        //public async Task<OrderDTO> AddOrder(OrderDTO order)
+        //{
+        //    var entity = _mapper.Map<Order>(order);
+        //    entity.IdCustomerNavigation = null!;
+
+
+        //    var result = await _context.Orders.AddAsync(entity);
+        //    await _context.SaveChangesAsync();
+        //    return _mapper.Map<OrderDTO>(result.Entity);
+        //}
+        public async Task<OrderDTO> AddOrder(OrderDTO orderDTO)
         {
-            var entity = _mapper.Map<Order>(order);
-            var result = await _context.Orders.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<OrderDTO>(result.Entity);
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                   
+                    var order = _mapper.Map<Order>(orderDTO);
+
+                
+                    await _context.Orders.AddAsync(order);
+                    await _context.SaveChangesAsync();
+
+                
+                    foreach (var detailDTO in orderDTO.OrderDetailsDTO)
+                    {
+                        var detail = _mapper.Map<OrderDetail>(detailDTO);
+                        detail.IdOrder = order.IdOrder; 
+                        await _context.OrderDetails.AddAsync(detail);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    return _mapper.Map<OrderDTO>(order);
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw; 
+                }
+            }
         }
 
         public async Task<OrderDetailDTO> AddOrderDetail(OrderDetailDTO order)

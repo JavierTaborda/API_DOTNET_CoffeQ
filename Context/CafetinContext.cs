@@ -24,9 +24,9 @@ public partial class CafetinContext : DbContext
 
     public virtual DbSet<Payment> Payments { get; set; }
 
-    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<Permission> Permissions { get; set; }
 
-  
+    public virtual DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,7 +58,6 @@ public partial class CafetinContext : DbContext
 
             entity.ToTable("Order");
 
-            entity.Property(e => e.IdOrder).ValueGeneratedNever();
             entity.Property(e => e.Date).HasColumnType("datetime");
 
             entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.Orders)
@@ -73,7 +72,6 @@ public partial class CafetinContext : DbContext
 
             entity.ToTable("OrderDetail");
 
-            entity.Property(e => e.IdOrderDetail).ValueGeneratedNever();
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.DatePaid).HasColumnType("datetime");
 
@@ -92,7 +90,6 @@ public partial class CafetinContext : DbContext
 
             entity.ToTable("Payment");
 
-            entity.Property(e => e.IdPayment).ValueGeneratedNever();
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.IdOrder).HasColumnName("idOrder");
             entity.Property(e => e.Ref)
@@ -104,13 +101,19 @@ public partial class CafetinContext : DbContext
                 .HasConstraintName("FK_Payment_Order");
         });
 
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => e.IdPermission);
+
+            entity.Property(e => e.IdPermission).ValueGeneratedNever();
+        });
+
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.IdProduct).HasName("PK__Producto__A430AE8315E10B65");
 
             entity.ToTable("Product");
 
-            entity.Property(e => e.IdProduct).ValueGeneratedNever();
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Image)
                 .HasMaxLength(500)
