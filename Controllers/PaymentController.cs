@@ -11,11 +11,27 @@ namespace API_CoffeQ.Controllers
     {
         private readonly IPaymentRepository _paymentRepository = paymentRepository;
 
-        [HttpGet]
-        public async Task<ActionResult<List<PaymentDTO>>> GetPayments()
+        [HttpGet("{f1}/{f2}/{customercedula}")]
+        public async Task<ActionResult<List<PaymentDTO>>> GetPayments(string f1, string f2, string customercedula)
         {
-            var payments = await _paymentRepository.GetPayments();
-            return Ok(payments);
+            if (string.IsNullOrEmpty(f1) || string.IsNullOrEmpty(f2) || string.IsNullOrEmpty(customercedula))
+            {
+                return BadRequest("Los parámetros no pueden estar vacíos.");
+            }
+
+            if (!DateTime.TryParse(f1, out DateTime fecha1))
+            {
+                return BadRequest("El formato de la fecha 'f1' no es válido.");
+            }
+
+            if (!DateTime.TryParse(f2, out DateTime fecha2))
+            {
+                return BadRequest("El formato de la fecha 'f2' no es válido.");
+            }
+
+                var payments = await _paymentRepository.GetPayments(fecha1, fecha2, customercedula);
+                return Ok(payments);
+        
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentDTO>> GetPayment(int id)

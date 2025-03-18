@@ -30,11 +30,18 @@ namespace API_CoffeQ.Repositories
             return _mapper.Map<List<PaymentDTO>>( payment);
         }
 
-        public async Task<List<PaymentDTO>> GetPayments()
+        public async Task<List<PaymentDTO>> GetPayments(DateTime f1, DateTime f2, string customeCedula)
         {
-            var payments = await _context.Payments
-                .Include(C=>C.IdOrderNavigation!.IdCustomerNavigation)
-                .ToListAsync();
+            var query = _context.Payments
+                .Include(C => C.IdOrderNavigation!.IdCustomerNavigation)
+                .Where(p => p.Date >= f1.Date && p.Date <= f2.Date);
+
+            if (!customeCedula.Contains("Todos"))
+            {
+                query = query.Where(p => p.IdOrderNavigation!.IdCustomerNavigation.Cedula == customeCedula);
+            }
+
+            var payments = await query.ToListAsync();
             return _mapper.Map<List<PaymentDTO>>(payments);
         }
 
