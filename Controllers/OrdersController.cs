@@ -30,6 +30,13 @@ namespace API_CoffeQ.Controllers
             var orders = await _orderRepository.GetOrders(customerid);
             return Ok(orders);
         }
+        [HttpGet("CustomerOrder/{customerid}")]
+        public async Task<ActionResult<List<OrderDTO>>> GetNumberOrder(string customerid)
+        {
+            var orders = await _orderRepository.GetNumberOrder(customerid);
+            return Ok(orders);
+        }
+      
         [HttpGet("Record/{user}")]
         public async Task<ActionResult<OrderDTO>> GetRecordOrder(string user)
         {

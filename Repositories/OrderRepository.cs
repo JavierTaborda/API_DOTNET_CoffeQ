@@ -90,6 +90,15 @@ namespace API_CoffeQ.Repositories
 
             return _mapper.Map<OrderDTO>(order);
         }
+        public async Task<string> GetNumberOrder(string customerCedula)
+        {
+            var order = await _context
+                            .Orders
+                            .FirstOrDefaultAsync(o => o.IdCustomerNavigation.Cedula == customerCedula);
+
+            return order != null ? order.IdOrder.ToString() : "No existe";
+        }
+
         public async Task<OrderDTO> ClientOrderRecord(string client)
         {
             var order = await _context
@@ -119,5 +128,7 @@ namespace API_CoffeQ.Repositories
             await _context.SaveChangesAsync();
             return _mapper.Map<OrderDTO>(result.Entity);
         }
+
+        
     }
 }

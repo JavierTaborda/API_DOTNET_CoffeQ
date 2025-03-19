@@ -5,6 +5,7 @@ namespace API_CoffeQ.Interfaces
     public interface IOrderRepository
     {
         Task<List<OrderDTO>> GetOrders( int customerid );
+        Task<string> GetNumberOrder(string customerCedula);
         Task<OrderDTO> GetOrder(int id);
         Task<OrderDTO> AddOrder(OrderDTO order);
 
